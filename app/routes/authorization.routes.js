@@ -6,6 +6,5 @@ module.exports = (app) => {
    // Create a new Tutorial
    router.post("/", auth.findUser);
    router.get("/user", auth.getUser);
-
    app.use("/api/authorization", router);
 };

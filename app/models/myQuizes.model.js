@@ -18,6 +18,6 @@ module.exports = (mongoose) => {
       return object;
    });
 
-   const Calender = mongoose.model("calender", schema);
-   return Calender;
+   const Myquizes = mongoose.model("myquizes", schema);
+   return Myquizes;
 };

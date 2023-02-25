@@ -40,7 +40,7 @@ db.mongoose
 
 require('./app/routes/turorial.routes')(app);
 require('./app/routes/locations.routes')(app);
-require('./app/routes/calender.routes')(app);
+require('./app/routes/myQuizes.routes')(app);
 require('./app/routes/dailyCash.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/discraption.routes')(app);

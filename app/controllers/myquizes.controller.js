@@ -1,16 +1,12 @@
 const db = require("../models");
-const Calender = db.calender;
+const Myquizes = db.myquizes;
 
 // Create and Save a new daet
 exports.create = (req, res) => {
    // Validate request
-   if (!req.body.title) {
-      res.status(400).send({ message: "Content can not be empty!" });
-      return;
-   }
 
    // Create a daet
-   const calender = new Calender({
+   const myquizes = new Myquizes({
       title: req.body.title,
       start: req.body.start ? req.body.end : new Date(),
       end: req.body.end ? req.body.end : new Date(),
@@ -21,8 +17,8 @@ exports.create = (req, res) => {
    });
 
    // Save locatins in the database
-   calender
-      .save(calender)
+   myquizes
+      .save(myquizes)
       .then((data) => {
          res.send(data);
          console.log("Created A new calender");
@@ -42,7 +38,7 @@ exports.findAll = (req, res) => {
       ? { company_name: { $regex: new RegExp(company_name), $options: "i" } }
       : {};
 
-   Calender.find(condition)
+      Myquizes.find(condition)
       .then((data) => {
          res.send(data);
          console.log(data);
@@ -60,7 +56,7 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
    const id = req.params.id;
 
-   Calender.findById(id)
+   Myquizes.findById(id)
       .then((data) => {
          if (!data)
             res.status(404).send({
@@ -85,7 +81,7 @@ exports.update = (req, res) => {
 
    const id = req.params.id;
 
-   Calender.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+   Myquizes.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
       .then((data) => {
          if (!data) {
             res.status(404).send({
@@ -108,7 +104,7 @@ exports.delete = (req, res) => {
       return;
    }
 
-   Calender.findByIdAndRemove(id, { useFindAndModify: false })
+   Myquizes.findByIdAndRemove(id, { useFindAndModify: false })
       .then((data) => {
          if (!data) {
             res.status(404).send({
@@ -131,7 +127,7 @@ exports.delete = (req, res) => {
 exports.published = (req, res) => {
    const id = req.params.id;
 
-   Calender.findByIdAndUpdate(
+   Myquizes.findByIdAndUpdate(
       id,
       {
          $set: {
@@ -162,7 +158,7 @@ exports.published = (req, res) => {
 exports.recovery = (req, res) => {
    const id = req.params.id;
 
-   Calender.findByIdAndUpdate(
+   Myquizes.findByIdAndUpdate(
       id,
       {
          $set: {
@@ -190,7 +186,7 @@ exports.recovery = (req, res) => {
 
 // Delete all calenders from the database.
 exports.deleteAll = (req, res) => {
-   Calender.deleteMany({})
+   Myquizes.deleteMany({})
       .then((data) => {
          res.send({
             message: `${data.deletedCount} calenders were deleted successfully!`,
@@ -214,7 +210,7 @@ exports.findAllPublished = (req, res) => {
       className: false,
       published: false,
    };
-   Calender.find({ published: true }, selectedData)
+   Myquizes.find({ published: true }, selectedData)
       .then((data) => {
          res.send(data);
       })
@@ -226,7 +222,7 @@ exports.findAllPublished = (req, res) => {
       });
 };
 exports.findAllunPublished = (req, res) => {
-   Calender.find({ published: false })
+   Myquizes.find({ published: false })
       .then((data) => {
          res.send(data);
       })

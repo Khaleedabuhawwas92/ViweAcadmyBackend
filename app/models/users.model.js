@@ -10,9 +10,8 @@ module.exports = (mongoose) => {
       myCourses: [{ name: String }],
       previousQuiz: [{ title: String }],
       noteQuiz: [{ QuizTitle: String }],
-      resetQuiz: [{ type: Number}],
+      resetQuiz: [{ type: Number }],
       flashCard: [{ type: String }],
-   
     },
     { timestamps: true }
   );
@@ -23,13 +22,13 @@ module.exports = (mongoose) => {
     return object;
   });
 
-//   schema.method('token', function () {
-//     const token = jwt.sign(
-//       { _id: this._id, isAdmain: this.isAdmain },
-//       'privet'
-//     );
-//     return token;
-//   });
+  //   schema.method('token', function () {
+  //     const token = jwt.sign(
+  //       { _id: this._id, isAdmain: this.isAdmain },
+  //       'privet'
+  //     );
+  //     return token;
+  //   });
 
   const Users = mongoose.model('users', schema);
   return Users;
