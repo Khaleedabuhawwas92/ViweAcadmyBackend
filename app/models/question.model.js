@@ -1,19 +1,12 @@
 module.exports = (mongoose) => {
    var schema = mongoose.Schema({
-      Question: String,
-      Title: String,
+      type:String,
+      courses:String,
+      subject:String,
+      systems:String,
+      topic:String,
       totalPoint: Number,
-      showPointsInBox: Boolean,
-      differentPointsForeEachAnswer: Boolean,
-      Answer1: String,
-      Answer2: String,
-      Answer3: String,
-      Answer4: String,
-      Answer5: String,
-      Answer: String,
-      questionText: String,
-      definition: String,
-      buttonName: String,
+      question: [Object],
    });
 
    schema.method("toJSON", function () {
@@ -22,6 +15,6 @@ module.exports = (mongoose) => {
       return object;
    });
 
-   const Question = mongoose.model("question", schema);
+   const Question = mongoose.model("questions", schema);
    return Question;
 };

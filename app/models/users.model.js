@@ -4,10 +4,11 @@ module.exports = (mongoose) => {
     {
       name: { type: String, required: true, trim: true },
       email: { type: String, required: true, trim: true },
-      password: { type: String, required: true },
+      phone: { type: String, required: true, trim: true },
+      password: { type: String, required: true,trim: true },
       isSuperAdmain: Boolean,
       isAdmain: Boolean,
-      myCourses: [{ name: String }],
+      myCourses:Array,
       previousQuiz: [{ title: String }],
       noteQuiz: [{ QuizTitle: String }],
       resetQuiz: [{ type: Number }],

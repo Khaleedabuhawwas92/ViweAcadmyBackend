@@ -10,7 +10,7 @@ exports.findUser = async (req, res) => {
       //check if password matches
       const result = req.body.password === user.password;
       if (result) {
-        res.redirect('/');
+        res.send('/dashboards/default');
       } else {
         res.status(400).json({ error: "password doesn't match" });
       }

@@ -11,12 +11,13 @@ exports.create = (req, res) => {
 //   }
   // Create a daet
   const user = new User({
-    name: req.body.name ? req.body.name : 'khaled',
-    email: req.body.email ? req.body.email : 'khaleedabuhawwas@gmail.com',
-    password: req.body.password ? req.body.password : '123',
+    name: req.body.name ? req.body.name : 'abuhawwas',
+    email: req.body.email ? req.body.email : 'amer.com',
+    phone: req.body.phone ? req.body.phone : '079',
+    password: req.body.password ? req.body.password : '555',
     isSuperAdmain: req.body.isSuperAdmain ? req.body.isSuperAdmain : false,
     isAdmain: req.body.isAdmain ? req.body.isAdmain : false,
-    myCourses: req.body.myCourses ? req.body.myCourses : [{name:'khaled'}],
+    myCourses: req.body.myCourses ? req.body.myCourses : [],
     previousQuiz: req.body.previousQuiz ? req.body.previousQuiz : [{title:'oo'}],
     noteQuiz: req.body.noteQuiz ? req.body.noteQuiz : [{QuizTitle:'oo'}],
   });
@@ -28,6 +29,7 @@ exports.create = (req, res) => {
     .then((data) => {
       // res.header("Authorization", token).send(data);
       res.send(data);
+      console.log(data);
     })
     .catch((err) => {
       res.status(500).send({

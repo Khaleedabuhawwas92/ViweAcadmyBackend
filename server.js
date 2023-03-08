@@ -44,6 +44,7 @@ require('./app/routes/myQuizes.routes')(app);
 require('./app/routes/dailyCash.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/discraption.routes')(app);
+require('./app/routes/question.routes')(app);
 require('./app/routes/authorization.routes')(app);
 app.use(function (req, res, next) {
    res.header('Access-Control-Allow-Origin', '*');
