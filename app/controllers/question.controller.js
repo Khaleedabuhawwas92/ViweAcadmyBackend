@@ -50,7 +50,7 @@ exports.findone = (req, res) => {
     courses: { $in: ['Antomie'] },
     subject: { $in: ['Microbiology2'] },
   };
-  Question.find(query)
+  Question.find(req.body)
     .then((data) => {
       res.send(data);
       console.log(data);
@@ -65,59 +65,7 @@ exports.findone = (req, res) => {
 
 // Retrieve all calenders from the database.
 exports.insertMany = (req, res) => {
-  Question.insertMany([
-    {
-      type: 'Marked Questions2',
-      courses: 'Antomie',
-      subject: 'Microbiology2',
-      systems: 'Dermatology2',
-      topic: 'Bacteriology2',
-      totalPoint: 12,
-      question: [
-        {
-          Answer1: 'Answer12',
-          Answer2: 'Answer22',
-          Answer3: 'Answer33',
-          Answer4: 'Answer44',
-          Answer5: 'Answer55',
-          Answer6: '6',
-          Answer: 'Answer56',
-          Answer: 'Answer56',
-          Answer: 'Answer56',
-          Answer: 'Answer56',
-          questionText: 'questionText 2',
-          definition: 'definition 2',
-        },
-      ],
-    },
-    {
-      type: 'Marked Questions3',
-      courses: 'Antomie2',
-      subject: 'Microbiology4',
-      systems: 'Dermatology5',
-      topic: 'Bacteriology6',
-      totalPoint: 30,
-      question: [
-        {
-          Answer1: 'Answer123',
-          Answer2: 'Answer2255',
-          Answer3: 'Answer3344',
-          Answer4: 'Answer4499',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer5: 'Answer5544',
-          Answer: 'Answer56',
-          questionText: 'questionText 217',
-          definition: 'definition 218',
-        },
-      ],
-    },
-  ])
+  Question.insertMany(req.body)
     .then((data) => {
       res.send(data);
       console.log(data);
