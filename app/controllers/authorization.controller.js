@@ -10,7 +10,19 @@ exports.findUser = async (req, res) => {
       //check if password matches
       const result = req.body.password === user.password;
       if (result) {
-        res.send('/dashboards/default');
+        await User.findOne({ email: req.body.email })
+          .then((data) => {
+            res.send(data);
+            console.log(data);
+          
+          })
+          .catch((err) => {
+            res.status(500).send({
+              message:
+                err.message ||
+                'Some error occurred while retrieving calenders.',
+            });
+          });
       } else {
         res.status(400).json({ error: "password doesn't match" });
       }
@@ -42,14 +54,9 @@ exports.findUser = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const token = await req.header('Authorization');
+  const email = await req.body.email;
   try {
-    var selectedData = {
-      __v: false,
-      _id: false,
-      auth: false,
-    };
-    await User.findOne({ auth: token }, selectedData)
+    await User.findOne({ email: email })
       .then((data) => {
         res.send(data);
       })

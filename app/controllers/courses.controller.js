@@ -1,25 +1,25 @@
 const db = require('../models');
-const Question = db.question;
+const Coruses = db.coruses;
 
 // Create and Save a new daet
 exports.create = (req, res) => {
+  // Validate request
+
+
   // Create a data
 
-  const question = new Question({
-    type: req.body.type ? req.body.type : 'Marked Questions',
-    courses: req.body.courses ? req.body.courses : 'Antomie',
-    subject: req.body.subject ? req.body.subject : 'Microbiology',
-    systems: req.body.systems ? req.body.systems : 'Dermatology',
-    topic: req.body.topic ? req.body.topic : 'Bacteriology',
-    totalPoint: req.body.totalPoint ? req.body.totalPoint : 0,
-    question: [...data],
+  const coruses = new Coruses({
+    price: req.body.price ? req.body.price : 1,
+    name: req.body.name ? req.body.name : 'null',
+    discrption: req.body.discrption ? req.body.discrption : '',
+    published: req.body.published ? req.body.published : true,
   });
   // Save locatins in the database
-  question
-    .save(question)
+  coruses
+    .save(coruses)
     .then((data) => {
       res.send(data);
-      console.log('Question A new Cash');
+      console.log('Created A new Cash');
     })
     .catch((err) => {
       res.status(500).send({
@@ -30,7 +30,17 @@ exports.create = (req, res) => {
 
 // Retrieve all calenders from the database.
 exports.findAll = (req, res) => {
-  Question.find()
+  const amount = req.query.amount;
+  var condition = amount
+    ? {
+        discrption: {
+          $regex: new RegExp(discrption),
+          $options: 'i',
+        },
+      }
+    : {};
+
+  Coruses.find(condition)
     .then((data) => {
       res.send(data);
       console.log(data);
@@ -42,42 +52,11 @@ exports.findAll = (req, res) => {
       });
     });
 };
-
-//filtring
-exports.findone = (req, res) => {
-  Question.find(req.body)
-    .then((data) => {
-      res.send(data);
-      console.log(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while retrieving Cashs.......',
-      });
-    });
-};
-
-// Retrieve all calenders from the database.
-exports.insertMany = (req, res) => {
-  Question.insertMany(req.body)
-    .then((data) => {
-      res.send(data);
-      console.log(data);
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message:
-          err.message || 'Some error occurred while retrieving Cashs.......',
-      });
-    });
-};
-
 
 // Find a single calenders with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  Question.findById(id)
+  Coruses.findById(id)
     .then((data) => {
       if (!data)
         res.status(404).send({
@@ -102,13 +81,13 @@ exports.update = (req, res) => {
 
   const id = req.params.id;
 
-  Question.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+  Coruses.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
     .then((data) => {
       if (!data) {
         res.status(404).send({
           message: `Cannot update Cash with id=${id}. Maybe Cash was not found!`,
         });
-      } else res.send({ message: 'Cash was updated successfully.' });
+      } else res.send({ message: 'Cash was updated successfully.' + data });
     })
     .catch((err) => {
       res.status(500).send({
@@ -120,12 +99,9 @@ exports.update = (req, res) => {
 // Delete a calenders with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
-  if (!req.body.amount) {
-    res.status(400).send({ message: 'Content can not be empty!' });
-    return;
-  }
 
-  Question.findByIdAndRemove(id, { useFindAndModify: false })
+
+  Coruses.findByIdAndRemove(id, { useFindAndModify: false })
     .then((data) => {
       if (!data) {
         res.status(404).send({
@@ -148,7 +124,7 @@ exports.delete = (req, res) => {
 exports.published = (req, res) => {
   const id = req.params.id;
 
-  Question.findByIdAndUpdate(
+  Coruses.findByIdAndUpdate(
     id,
     {
       $set: {
@@ -179,7 +155,7 @@ exports.published = (req, res) => {
 exports.recovery = (req, res) => {
   const id = req.params.id;
 
-  Question.findByIdAndUpdate(
+  Coruses.findByIdAndUpdate(
     id,
     {
       $set: {
@@ -207,7 +183,7 @@ exports.recovery = (req, res) => {
 
 // Delete all cash from the database.
 exports.deleteAll = (req, res) => {
-  Question.deleteMany({})
+  Coruses.deleteMany({})
     .then((data) => {
       res.send({
         message: `${data.deletedCount} Cash were deleted successfully!`,
@@ -221,3 +197,28 @@ exports.deleteAll = (req, res) => {
 };
 
 // Find all published cash
+exports.findAllPublished = (req, res) => {
+  Coruses.find({
+    published: true,
+  })
+    .select('amount discrption ')
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving Cash.',
+      });
+    });
+};
+exports.findAllunPublished = (req, res) => {
+  Coruses.find({ published: false })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while retrieving Cash.',
+      });
+    });
+};

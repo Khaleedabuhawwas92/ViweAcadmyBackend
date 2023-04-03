@@ -16,27 +16,27 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // simple route
 
 app.get('/', (req, res) => {
-   res.json({ message: 'Welcome to Khaled application.' });
+  res.json({ message: ' wolocm to page' });
 });
 app.get('/omar', (req, res) => {
-   res.json({ message: 'Welcome to omar application.' });
+  res.json({ message: 'wolocom to omar ' });
 });
 const db = require('./app/models');
 
 db.mongoose
-   .connect(db.url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      // tls: true,
-      // tlsCAFile: './ca-certificate.crt',
-   })
-   .then(() => {
-      console.log('Connected to the database!');
-   })
-   .catch((err) => {
-      console.log(err);
-      process.exit();
-   });
+  .connect(db.url, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    // tls: true,
+    // tlsCAFile: './ca-certificate.crt',
+  })
+  .then(() => {
+    console.log('Connected to the database!');
+  })
+  .catch((err) => {
+    console.log(err);
+    process.exit();
+  });
 
 require('./app/routes/turorial.routes')(app);
 require('./app/routes/locations.routes')(app);
@@ -45,25 +45,27 @@ require('./app/routes/dailyCash.routes')(app);
 require('./app/routes/user.routes')(app);
 require('./app/routes/discraption.routes')(app);
 require('./app/routes/question.routes')(app);
+require('./app/routes/courses.routes')(app);
 require('./app/routes/authorization.routes')(app);
+require('./app/routes/notes.routes')(app);
 app.use(function (req, res, next) {
-   res.header('Access-Control-Allow-Origin', '*');
-   res.header(
-      'Access-Control-Allow-Headers',
-      'Origin, X-Requested-With, Content-Type, Accept'
-   );
-   next();
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
 });
 
 app.all('*', (req, res, next) => {
-   res.status(404).json({
-      status: 'false',
-      message: 'Page is Not FOUND',
-   });
+  res.status(404).json({
+    status: 'false',
+    message: 'Page is Not FOUND',
+  });
 });
 
 // set port, listen for request
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-   console.log(`Server is running on port ${PORT}.`);
+  console.log(`Server is running on port ${PORT}.`);
 });

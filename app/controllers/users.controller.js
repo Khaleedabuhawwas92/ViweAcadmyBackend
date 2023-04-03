@@ -5,10 +5,10 @@ const User = db.user;
 exports.create = (req, res) => {
   // Validate request
 
-//   if (!req.body.name) {
-//     res.status(400).send({ message: 'Content can not be empty!' });
-//     return;
-//   }
+  //   if (!req.body.name) {
+  //     res.status(400).send({ message: 'Content can not be empty!' });
+  //     return;
+  //   }
   // Create a daet
   const user = new User({
     name: req.body.name ? req.body.name : 'abuhawwas',
@@ -18,8 +18,8 @@ exports.create = (req, res) => {
     isSuperAdmain: req.body.isSuperAdmain ? req.body.isSuperAdmain : false,
     isAdmain: req.body.isAdmain ? req.body.isAdmain : false,
     myCourses: req.body.myCourses ? req.body.myCourses : [],
-    previousQuiz: req.body.previousQuiz ? req.body.previousQuiz : [{title:'oo'}],
-    noteQuiz: req.body.noteQuiz ? req.body.noteQuiz : [{QuizTitle:'oo'}],
+    previousQuiz: req.body.previousQuiz ? req.body.previousQuiz : [],
+    noteQuiz: req.body.noteQuiz ? req.body.noteQuiz : [],
   });
   // const token = user.token();
   // user.auth = token;
@@ -63,6 +63,50 @@ exports.findOne = async (req, res) => {
   const id = req.params.id;
 
   await User.findById(id)
+    .then((data) => {
+      if (!data)
+        res.status(404).send({
+          message: 'Not found user with id ' + id,
+        });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Error retrieving user with id=' + id,
+      });
+    });
+};
+exports.findNote = async (req, res) => {
+  const id = req.params.id;
+
+  await User.findById(id)
+    .then((data) => {
+      if (!data)
+        res.status(404).send({
+          message: 'Not found user with id ' + id,
+        });
+      else res.send(data.noteQuiz);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Error retrieving user with id=' + id,
+      });
+    });
+};
+// Find a single calenders with an id
+exports.createNote = async (req, res) => {
+  const id = req.params.id;
+  const body = req.body;
+
+  User.findByIdAndUpdate(
+    id,
+    {
+      $push: {
+        noteQuiz: [body],
+      },
+    },
+    { useFindAndModify: false }
+  )
     .then((data) => {
       if (!data)
         res.status(404).send({
@@ -220,6 +264,38 @@ exports.findAllPublished = async (req, res) => {
       res.status(500).send({
         message:
           err.message || 'Some error occurred while retrieving calenders.',
+      });
+    });
+};
+exports.deleteNote = (req, res) => {
+  const id = req.params.id;
+  const labelId = req.params.labelId;
+
+  User.updateOne(
+    { _id:id, labelId: labelId },
+    {
+      $pullAll: {
+        noteQuiz: labelId,
+      },
+    },
+    {
+      useFindAndModify: false,
+    }
+  )
+    .then((data) => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete Cash with id=${id}. Maybe Cash was not found!`,
+        });
+      } else {
+        res.send({
+          message: 'Cash was deleted successfully!',
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: 'Could not delete Cash with id=' + id,
       });
     });
 };

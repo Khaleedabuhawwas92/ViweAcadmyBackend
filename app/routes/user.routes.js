@@ -5,9 +5,14 @@ module.exports = (app) => {
 
    // Create a new Tutorial
    router.post("/", user.create);
+   // Create a new Tutorial
+   router.post("/note/:id", user.createNote);
 
    // Retrieve all Tutorials
    router.get("/", user.findAll);
+
+   // Retrieve all Tutorials
+   router.get("/note/:id", user.findNote);
 
    // Retrieve all published Tutorials
    router.get("/published", user.findAllPublished);
@@ -29,6 +34,10 @@ module.exports = (app) => {
 
    // Create a new Tutorial
    router.delete("/", user.deleteAll);
+   router.delete("/note/:id/:labelId", user.deleteNote);
+
+
+   
 
    app.use("/api/user", router);
 };

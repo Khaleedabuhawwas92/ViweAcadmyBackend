@@ -10,7 +10,7 @@ module.exports = (mongoose) => {
       isAdmain: Boolean,
       myCourses:Array,
       previousQuiz: [{ title: String }],
-      noteQuiz: [{ QuizTitle: String }],
+      noteQuiz: [Object],
       resetQuiz: [{ type: Number }],
       flashCard: [{ type: String }],
     },
@@ -20,6 +20,7 @@ module.exports = (mongoose) => {
   schema.method('toJSON', function () {
     const { __v, _id, ...object } = this.toObject();
     object.id = _id;
+   
     return object;
   });
 
